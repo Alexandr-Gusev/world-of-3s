@@ -322,4 +322,34 @@ function apply_preset() {
 
 		motion_enabled = false;
 	}
+	if (preset === 1080 || preset === 1081) {
+		w_const = preset === 1080 ? 1600 : 800;
+		h_const = preset === 1080 ? 1200 : 600;
+		
+		camera_size_px = preset === 1080 ? 1200 : 500;
+		camera_size = 0.001;
+
+		distance = 1.002;
+		camera_a1 = 120;
+		zoom = 0.5;
+		
+		texture_enabled = true;
+
+		info_mode = undefined;
+
+		if (preset === 1080) {
+			moon_H = -earth_R; // прячем Луну внутрь Земли
+		}
+		if (preset === 1081) {
+			moon_t = 333 / 360 * moon_T;
+		}
+		sun_H = 25;
+		sun_t = 88 / 360 * sun_T;
+
+		light_model = 2;
+		WF_enabled = true;
+		light_power = 4;
+
+		motion_enabled = false;
+	}
 }
