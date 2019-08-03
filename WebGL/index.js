@@ -1,6 +1,6 @@
 var preset = new URL(window.location).searchParams.get("preset");
-if (preset === undefined) preset = 0;
-preset = parseInt(preset);
+if (preset === null) preset = 0;
+else preset = parseInt(preset);
 
 var w_const = undefined;
 var h_const = undefined;

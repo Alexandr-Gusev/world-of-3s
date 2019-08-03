@@ -24,7 +24,8 @@ var presets = [
 	1040, 1041, 1042, 1043,
 	1050, 1051,
 	1060, 1061,
-	1070
+	1070,
+	1081
 ];
 
 function change_preset(next) {
