@@ -1,6 +1,13 @@
-var preset = new URL(window.location).searchParams.get("preset");
+/*var preset = new URL(window.location).searchParams.get("preset");
 if (preset === null) preset = 0;
-else preset = parseInt(preset);
+else preset = parseInt(preset);*/
+
+var preset = 0;
+if (window.location.search.indexOf("?preset=") == 0) {
+	preset = parseInt(window.location.search.substr(8));
+}
+
+var px_xy_count = preset === 0 ? 1 : 3;
 
 var w_const = undefined;
 var h_const = undefined;
@@ -97,6 +104,7 @@ function create_info_block() {
 		info_append("eclipse", "E", true);
 		info_append("info", "I", true);
 		info_append("next / prev preset", "1 / 2", true);
+		info_append("quality", "Q");
 	} else if (info_mode === "d") {
 		info_append("distance");
 	} else if (info_mode === "a") {
@@ -144,8 +152,11 @@ function load_shaders_on_result(item, e) {
 }
 
 function load_shaders_on_complete() {
+	var fs_prefix = "const int px_x_count = " + px_xy_count + ";" +
+		"const int px_y_count = " + px_xy_count + ";";
+	
 	var compiled_vs = create_shader(gl, gl.VERTEX_SHADER, vs.content);
-	var compiled_fs = create_shader(gl, gl.FRAGMENT_SHADER, fs.content + fse_prefix.content + fse.content + fse_suffix.content);
+	var compiled_fs = create_shader(gl, gl.FRAGMENT_SHADER, fs_prefix + fs.content + fse_prefix.content + fse.content + fse_suffix.content);
 	program = create_program(gl, compiled_vs, compiled_fs);
 
 	loc.position = gl.getAttribLocation(program, "position");
@@ -426,6 +437,8 @@ function draw() {
 		var sun_a = sun_t * 360 / sun_T;
 		if (sun_a < 0) sun_a += 360;
 		info.sun_a.textContent = sun_a.toFixed(2);
+		
+		info.quality.textContent = px_xy_count === 1 ? "standard" : "high";
 	} else if (info_mode === "d") {
 		info.distance.textContent = distance.toFixed(3);
 	} else if (info_mode === "a") {
@@ -603,12 +616,17 @@ function windowOnKeyDown(e) {
 		moon_t = sun_a * moon_T / (2 * Math.PI);
 		restart_motion();
 	}
-
+	
 	if (key === "1") { // пред. preset
 		change_preset(false);
 	}
 	if (key === "2") { // след. preset
 		change_preset(true);
+	}
+
+	if (key === "Q") {
+		px_xy_count = px_xy_count === 1 ? 3 : 1;
+		change_preset(px_xy_count === 1 ? 0 : 1100);
 	}
 }
 

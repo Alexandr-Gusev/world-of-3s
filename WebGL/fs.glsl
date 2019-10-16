@@ -38,8 +38,8 @@ struct camera_t
 //==============================================================================
 const float M_PI = 3.14159265358979323846;
 
-const int px_x_count = 3;
-const int px_y_count = 3;
+/*const int px_x_count = 3;
+const int px_y_count = 3;*/
 
 const int sphere_count = 3;
 

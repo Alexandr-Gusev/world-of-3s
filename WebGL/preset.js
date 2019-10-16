@@ -25,19 +25,27 @@ var presets = [
 	1050, 1051,
 	1060, 1061,
 	1070,
+	//1080 - intro
 	1081
+	//1100 - HQ
 ];
 
 function change_preset(next) {
-	var i = presets.indexOf(preset);
-	if (next) {
-		if (i === -1 || i === presets.length - 1) i = 0;
-		else i++;
+	var next_preset;
+	if (typeof(next) === "boolean") {
+		var i = presets.indexOf(preset);
+		if (next) {
+			if (i === -1 || i === presets.length - 1) i = 0;
+			else i++;
+		} else {
+			if (i === -1 || i === 0) i = presets.length - 1;
+			else i--;
+		}
+		next_preset = presets[i];
 	} else {
-		if (i === -1 || i === 0) i = presets.length - 1;
-		else i--;
+		next_preset = next;
 	}
-	location = location.origin + location.pathname + "?preset=" + presets[i];
+	location = location.origin + location.pathname + "?preset=" + next_preset;
 }
 
 function apply_preset() {
