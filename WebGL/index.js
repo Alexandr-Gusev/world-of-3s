@@ -2,12 +2,38 @@
 if (preset === null) preset = 0;
 else preset = parseInt(preset);*/
 
-var preset = 0;
-if (window.location.search.indexOf("?preset=") == 0) {
-	preset = parseInt(window.location.search.substr(8));
+function get_params() {
+	var params = {};
+	var search = window.location.search;
+	var beg = search.indexOf("?");
+	if (beg !== -1) {
+		search = search.substr(beg + 1);
+		var elems = search.split("&");
+		for (var i = 0; i < elems.length; i++) {
+			var pair = elems[i].split("=");
+			if (pair.length === 2) {
+				params[pair[0]] = pair[1];
+			}
+		}
+	}
+	return params;
 }
 
-var px_xy_count = preset === 0 ? 1 : 3;
+var params = get_params();
+
+var preset = params.preset;
+if (preset === undefined) {
+	preset = 0;
+} else {
+	preset = parseInt(preset);
+}
+
+var px_xy_count = params.px_xy_count;
+if (px_xy_count === undefined) {
+	px_xy_count = preset === 0 ? 1 : 3;
+} else {
+	px_xy_count = parseInt(px_xy_count);
+}
 
 var w_const = undefined;
 var h_const = undefined;
@@ -626,7 +652,7 @@ function windowOnKeyDown(e) {
 
 	if (key === "Q") {
 		px_xy_count = px_xy_count === 1 ? 3 : 1;
-		change_preset(px_xy_count === 1 ? 0 : 1100);
+		location = location.origin + location.pathname + "?preset=" + preset + "&px_xy_count=" + px_xy_count;
 	}
 }
 
